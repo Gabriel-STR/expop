@@ -1,0 +1,180 @@
+{
+    "version": 1,
+    "topic": "Mining and Smithing",
+    "map": {
+    "tilemapKey": "mining_and_smithing_map",
+    "tilesetKey": "tileset",
+    "tilesetName": "mining_and_smithing_tileset",
+    "tileWidth": 32,
+    "tileHeight": 32,
+    "layers": [
+    { "name": "World", "collidesByProperty": { "collides": true } }
+    ],
+    "blockedTileIndices": [2,4,5],
+    "tilemapData": {
+    "height": 20,
+    "infinite": false,
+    "layers": [
+    {
+    "data": [
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,1,
+    1,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1,
+    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,1,
+    1,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,
+    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+    ],
+    "height": 20,
+    "id": 1,
+    "name": "World",
+    "opacity": 1,
+    "type": "tilelayer",
+    "visible": 1,
+    "width": 30,
+    "x": 0,
+    "y": 0,
+    "properties": [
+    { "name": "collides", "type": "bool", "value": false }
+    ]
+    }
+    ],
+    "nextlayerid": 2,
+    "nextobjectid": 1,
+    "orientation": "orthogonal",
+    "renderorder": "right-down",
+    "tiledversion": "1.10.2",
+    "tileheight": 32,
+    "tilesets": [
+    {
+    "columns": 7,
+    "firstgid": 1,
+    "image": "tileset.png",
+    "imageheight": 32,
+    "imagewidth": 224,
+    "margin": 0,
+    "name": "mining_and_smithing_tileset",
+    "spacing": 0,
+    "tilecount": 7,
+    "tileheight": 32,
+    "tilewidth": 32,
+    "tiles": [
+    { "id": 2, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+    { "id": 3, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+    { "id": 4, "properties": [{ "name": "collides", "type": "bool", "value": true }] }
+    ]
+    }
+    ],
+    "tilewidth": 32,
+    "type": "map",
+    "version": "1.10",
+    "width": 30
+    }
+    },
+    "tileset": {
+    "tileSize": 32,
+    "tiles": [
+      { "id": 0, "layers": [
+        { "shape": "rect", "color": "#2e7d32", "strokeColor": "#1b5e20", "lineWidth": 1 },
+        { "path": "M 0 0.88 L 1 0.88 L 1 1 L 0 1 Z", "color": "#256029", "strokeColor": null, "lineWidth": 0 },
+        { "path": "M 0 0 L 1 0 L 1 0.1 L 0 0.1 Z", "color": "#3fa34d", "strokeColor": null, "lineWidth": 0 }
+      ]},
+      { "id": 1, "layers": [
+        { "shape": "roundedRect", "color": "#6b7280", "strokeColor": "#111111", "lineWidth": 1, "cornerRadius": 4 },
+        { "path": "M 0 0.33 L 1 0.33 M 0 0.66 L 1 0.66 M 0 0 L 0 1 M 0.5 0.33 L 0.5 0 M 1 0.66 L 1 0.33 M 0.25 1 L 0.25 0.66 M 0.75 0.33 L 0.75 0", "color": null, "strokeColor": "#374151", "lineWidth": 1 }
+      ]},
+      { "id": 2, "layers": [
+        { "shape": "rect", "color": "#1d4ed8", "strokeColor": "#0b3ea0", "lineWidth": 1 },
+        { "path": "M 0 0.3 L 0.2 0.35 L 0.4 0.3 L 0.6 0.35 L 0.8 0.3 L 1 0.35 M 0 0.6 L 0.2 0.65 L 0.4 0.6 L 0.6 0.65 L 0.8 0.6 L 1 0.65", "color": null, "strokeColor": "#bfdbfe", "lineWidth": 1 }
+      ]},
+      { "id": 3, "layers": [
+        { "shape": "roundedRect", "color": "#6b4f2a", "strokeColor": "#4a3318", "lineWidth": 1, "cornerRadius": 4 },
+        { "shape": "circle", "color": "#8b5e34", "strokeColor": "#3f2a14", "lineWidth": 1, "scaleX": 0.6, "scaleY": 0.6 },
+        { "shape": "circle", "color": "#a97142", "strokeColor": "#3f2a14", "lineWidth": 1, "scaleX": 0.35, "scaleY": 0.35 }
+      ]},
+      { "id": 4, "layers": [
+        { "shape": "rect", "color": "#b91c1c", "strokeColor": "#7f1d1d", "lineWidth": 1 },
+        { "path": "M 0 0.2 L 0.2 0.25 L 0.3 0.2 L 0.5 0.3 L 0.7 0.25 L 1 0.35 M 0 0.6 L 0.3 0.55 L 0.5 0.65 L 0.8 0.6 L 1 0.7", "color": null, "strokeColor": "#fb923c", "lineWidth": 1 }
+      ]},
+      { "id": 5, "layers": [
+        { "shape": "rect", "color": "#d9c179", "strokeColor": "#b89b5e", "lineWidth": 1 },
+        { "path": "M 0 0.15 L 1 0.15 M 0 0.85 L 1 0.85", "color": null, "strokeColor": "#c8b06e", "lineWidth": 1 }
+      ]},
+      { "id": 6, "layers": [
+        { "shape": "rect", "color": "#3f8f3a", "strokeColor": "#1f6f1a", "lineWidth": 1 },
+        { "path": "M 0.1 0.1 L 0.2 0.2 M 0.8 0.2 L 0.9 0.1 M 0.3 0.8 L 0.4 0.7 M 0.6 0.7 L 0.7 0.8", "color": null, "strokeColor": "#61c356", "lineWidth": 1 }
+      ]}
+    ]
+    },
+    "player": {
+    "shape": "rect",
+    "color": "#3b82f6",
+    "width": 24,
+    "height": 28
+    },
+    "items": {
+    "catalog": [
+    { "id": "COPPER_ORE", "name": "Copper Ore", "description": "Chunk of copper-rich rock.", "path": "M 0.2 0.3 L 0.8 0.3 L 0.9 0.6 L 0.7 0.85 L 0.3 0.85 L 0.1 0.6 Z", "color": "#b45309" },
+    { "id": "TIN_ORE", "name": "Tin Ore", "description": "Pale stone with tin flecks.", "path": "M 0.2 0.25 L 0.8 0.25 L 0.9 0.55 L 0.7 0.85 L 0.3 0.85 L 0.1 0.55 Z", "color": "#9ca3af" },
+    { "id": "TONGS", "name": "Tongs", "description": "Helps handle hot metal safely.", "path": "M 0.25 0.2 L 0.4 0.2 L 0.55 0.5 L 0.7 0.2 L 0.85 0.2 L 0.6 0.8 L 0.45 0.8 Z", "color": "#4b5563" },
+    { "id": "BRONZE_BAR", "name": "Bronze Bar", "description": "A newly smelted bronze ingot.", "path": "M 0.15 0.5 L 0.85 0.5 L 0.75 0.7 L 0.25 0.7 Z", "color": "#cd7f32" }
+],
+"spawns": [
+    { "id": "COPPER_ORE", "x": 112, "y": 112 },
+    { "id": "TIN_ORE", "x": 208, "y": 176 },
+    { "id": "TONGS", "x": 336, "y": 272 }
+    ]
+    },
+    "interactables": [
+    {
+    "id": "furnace",
+    "x": 656,
+    "y": 336,
+    "width": 32,
+    "height": 28,
+    "path": "M 0 0 L 1 0 L 1 1 L 0 1 Z",
+    "color": "#4b5563",
+    "solid": false,
+    "requiresAllItemIds": ["COPPER_ORE", "TIN_ORE"],
+    "grantItemId": "BRONZE_BAR",
+    "grantQty": 1,
+    "onActivateTaskId": "SMELT_BRONZE",
+    "completesLevel": false,
+    "description": "A hot furnace. Combine copper and tin ores here to smelt a bronze bar."
+    }
+    ],
+    "tasks": [
+    {
+    "id": "FETCH_ORES",
+    "title": "Fetch Ores",
+    "description": "Find and collect copper ore and tin ore in the mine.",
+    "completed": false
+    },
+    {
+    "id": "SMELT_BRONZE",
+    "title": "Smelt a Bronze Bar",
+    "description": "Use the furnace to smelt the ores into a bronze bar.",
+    "completed": false
+    }
+    ],
+    "audio": {
+    "sfx": {
+    "pickup": { "type": "beep", "frequency": 880, "durationMs": 120, "volume": 0.5 },
+    "step": { "type": "beep", "frequency": 220, "durationMs": 80, "volume": 0.25 }
+    },
+    "music": { "type": "none" }
+    }
+    }
