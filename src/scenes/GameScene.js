@@ -70,14 +70,7 @@ export default class GameScene extends Phaser.Scene {
       ItemPickup.spawn(this, s.x, s.y, s.id);
     }
 
-    this.physics.add.overlap(this.player, this.items, (player, item) => {
-      if (!item || !item.itemId) return;
-      this.inventory.add(item.itemId, 1);
-      item.destroy();
-      this.audio.playSfx(ASSET_KEYS.SFX_PICKUP);
-      this.game.events.emit(EVENTS.INVENTORY_CHANGED, this.inventory.getAll());
-      this._saveGame();
-    });
+    // Remove collision-based item pickup; items are picked up via mouse click (see ItemPickup)
 
     // Interactables (generic)
     this.interactables = [];
@@ -227,15 +220,7 @@ export default class GameScene extends Phaser.Scene {
     }
     this.player.updateMovement(dir, sprint);
 
-    // Interactable activation (proximity + requirements)
-    if (this.interactables && this.interactables.length) {
-      for (const inter of this.interactables) {
-        if (inter && !inter.isActivated) {
-          const changed = inter.tryActivate(this.inventory, this.player, this.audio, this.tasks);
-          if (changed) this._saveGame();
-        }
-      }
-    }
+    // Interactable activation is now click-based (handled in Interactable). No auto-activation here.
 
     // Auto-complete tasks based on inventory and world state
     // Example for content: mark FETCH_ORES when both ores are in inventory

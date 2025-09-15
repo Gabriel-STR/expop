@@ -1,10 +1,12 @@
 import Phaser from 'phaser';
-import { EVENTS } from '../utils/constants.js';
+import { EVENTS, ASSET_KEYS, INTERACTION_DISTANCE } from '../utils/constants.js';
 
 export default class UIScene extends Phaser.Scene {
   constructor() {
     super({ key: 'UIScene' });
     this.inventoryVisible = true;
+    this.selectedInventoryIndex = -1;
+    this.selectedInventoryItemId = null;
   }
 
   init(data) {
@@ -33,6 +35,8 @@ export default class UIScene extends Phaser.Scene {
     this._buildInventoryGrid();
     this._positionInventoryContainerBottom();
     this._renderInventory(this.inventory.getAll());
+    // Chat UI
+    this._buildChatUi();
 
     // Objectives HUD
     this.objectiveContainer = this.add.container(20, 20).setScrollFactor(0).setDepth(10);
@@ -50,13 +54,31 @@ export default class UIScene extends Phaser.Scene {
     this.completeContainer = this.add.container(0, 0).setScrollFactor(0).setDepth(1001).setVisible(false);
     this.completeBg = this.add.rectangle(0, 0, width, height, 0x000000, 0.6).setOrigin(0, 0);
     this.completeTitle = this.add.text(width / 2, height / 2 - 10, 'Level Complete!', { fontFamily: 'sans-serif', fontSize: '28px', color: '#22c55e' }).setOrigin(0.5);
-    this.completeHint = this.add.text(width / 2, height / 2 + 24, 'Enter: Restart  |  Q: Save & Quit', { fontFamily: 'sans-serif', fontSize: '14px', color: '#e5e7eb' }).setOrigin(0.5);
-    this.completeContainer.add([this.completeBg, this.completeTitle, this.completeHint]);
+    this.completeButtonBg = this.add.rectangle(width / 2, height / 2 + 24, 220, 36, 0x111827, 0.95).setOrigin(0.5).setStrokeStyle(1, 0x374151).setInteractive({ useHandCursor: true });
+    this.completeButtonLabel = this.add.text(width / 2, height / 2 + 24, 'Mission Complete', { fontFamily: 'sans-serif', fontSize: '16px', color: '#e5e7eb' }).setOrigin(0.5);
+    this.completeButtonBg.on('pointerover', () => this.completeButtonBg.setFillStyle(0x1f2937, 0.95));
+    this.completeButtonBg.on('pointerout', () => this.completeButtonBg.setFillStyle(0x111827, 0.95));
+    this.completeButtonBg.on('pointerdown', () => {
+      const gs = this.scene.get('GameScene');
+      try { if (gs && gs.dataStore) gs.dataStore.clear(); } catch (e) {}
+      if (this.audio && this.audio.fadeOutMusic) this.audio.fadeOutMusic(250);
+      this.time.delayedCall(260, () => {
+        this.scene.stop('UIScene');
+        this.scene.stop('GameScene');
+        this.scene.start('MenuScene');
+      });
+    });
+    this.completeContainer.add([this.completeBg, this.completeTitle, this.completeButtonBg, this.completeButtonLabel]);
 
     // Listen for inventory updates
     this.game.events.on(EVENTS.INVENTORY_CHANGED, (list) => this._renderInventory(list));
     // Listen for task updates
     this.game.events.on(EVENTS.TASKS_UPDATED, (list) => this._renderObjectives(list));
+    // Listen for chat messages
+    this.game.events.on(EVENTS.CHAT_MESSAGE, (msg) => {
+      const text = typeof msg === 'string' ? msg : (msg?.text || '');
+      if (text) this._appendChat(text);
+    });
 
     // Toggle inventory from GameScene
     this.events.on('ui:toggleInventory', () => {
@@ -82,10 +104,10 @@ export default class UIScene extends Phaser.Scene {
     this.game.events.on(EVENTS.UI_CONTEXT_HIDE, () => this._hideContextMenu());
     // Hide when clicking outside the menu
     this.input.on('pointerdown', (pointer, currentlyOver) => {
-      const clickedInside = currentlyOver && currentlyOver.includes(this.contextMenu);
-      if (!clickedInside) {
-        this._hideContextMenu();
-      }
+      const over = Array.isArray(currentlyOver) ? currentlyOver : [];
+      const isChild = (obj) => (this.contextMenu && this.contextMenu.list && this.contextMenu.list.includes(obj));
+      const clickedInside = over.some((obj) => obj === this.contextMenu || isChild(obj));
+      if (!clickedInside) this._hideContextMenu();
     });
   }
 
@@ -119,7 +141,12 @@ export default class UIScene extends Phaser.Scene {
           const items = this.inventory.getAll().slice().sort((a, b) => a.id.localeCompare(b.id));
           const it = items[index];
           if (!it) return;
-          if (pointer.rightButtonDown()) {
+          if (pointer.leftButtonDown()) {
+            if (pointer.event && typeof pointer.event.stopPropagation === 'function') {
+              pointer.event.stopPropagation();
+            }
+            this._setSelectedInventory(index, it.id);
+          } else if (pointer.rightButtonDown()) {
             if (pointer.event && typeof pointer.event.stopPropagation === 'function') {
               pointer.event.stopPropagation();
             }
@@ -165,10 +192,12 @@ export default class UIScene extends Phaser.Scene {
       if (!it) {
         slot.icon.setVisible(false);
         slot.label.setText('');
+        slot.bg.setStrokeStyle(1, 0x1e293b);
         continue;
       }
       slot.icon.setTexture('items', it.id).setVisible(true);
       slot.label.setText(`x${it.qty}`);
+      if (i === this.selectedInventoryIndex) slot.bg.setStrokeStyle(2, 0x22c55e); else slot.bg.setStrokeStyle(1, 0x1e293b);
     }
   }
 
@@ -181,7 +210,8 @@ export default class UIScene extends Phaser.Scene {
     if (this.pauseHint) this.pauseHint.setPosition(width / 2, height / 2 + 20);
     if (this.completeBg) this.completeBg.setSize(width, height);
     if (this.completeTitle) this.completeTitle.setPosition(width / 2, height / 2 - 10);
-    if (this.completeHint) this.completeHint.setPosition(width / 2, height / 2 + 24);
+    if (this.completeButtonBg) this.completeButtonBg.setPosition(width / 2, height / 2 + 24);
+    if (this.completeButtonLabel) this.completeButtonLabel.setPosition(width / 2, height / 2 + 24);
   }
 
   _positionInventoryContainerBottom() {
@@ -238,40 +268,118 @@ export default class UIScene extends Phaser.Scene {
 
   _buildContextMenu() {
     this.contextMenu = this.add.container(0, 0).setDepth(999).setScrollFactor(0).setVisible(false);
-    const bg = this.add.rectangle(0, 0, 200, 30, 0x111827, 0.95).setOrigin(0, 0).setStrokeStyle(1, 0x374151);
-    const label = this.add.text(8, 6, 'Examine', { fontFamily: 'sans-serif', fontSize: '14px', color: '#e5e7eb' }).setOrigin(0, 0);
-    this.contextMenu.add([bg, label]);
-    this.contextMenu.setSize(200, 30);
-    const hit = new Phaser.Geom.Rectangle(0, 0, 200, 30);
+    const bg = this.add.rectangle(0, 0, 200, 64, 0x111827, 0.95).setOrigin(0, 0).setStrokeStyle(1, 0x374151);
+    const label1 = this.add.text(8, 6, 'Examine', { fontFamily: 'sans-serif', fontSize: '14px', color: '#e5e7eb' }).setOrigin(0, 0);
+    const label2 = this.add.text(8, 34, '', { fontFamily: 'sans-serif', fontSize: '14px', color: '#e5e7eb' }).setOrigin(0, 0).setVisible(false);
+    this.contextMenu.add([bg, label1, label2]);
+    this.contextMenu.setSize(200, 64);
+    const hit = new Phaser.Geom.Rectangle(0, 0, 200, 64);
     this.contextMenu.setInteractive(hit, Phaser.Geom.Rectangle.Contains);
-    this.contextMenu.on('pointerdown', (pointer) => {
-      if (pointer.event && typeof pointer.event.stopPropagation === 'function') {
-        pointer.event.stopPropagation();
-      }
-      if (this.contextMenuPayload) {
-        const { action, payload } = this.contextMenuPayload;
-        if (action === 'examine') {
-          const text = payload?.description || `It is a ${payload?.itemId || 'thing'}.`;
-          this._showTooltip(text, this.contextMenu.x, this.contextMenu.y);
-        }
-      }
-      this._hideContextMenu();
+    // Dedicated hit zones for reliable option clicks
+    this.contextHit1 = this.add.rectangle(0, 0, 200, 30, 0x000000, 0.0001).setOrigin(0, 0).setInteractive({ useHandCursor: true });
+    this.contextHit2 = this.add.rectangle(0, 32, 200, 30, 0x000000, 0.0001).setOrigin(0, 0).setInteractive({ useHandCursor: true });
+    this.contextMenu.add([this.contextHit1, this.contextHit2]);
+    this.contextHit1.on('pointerdown', (pointer) => {
+      if (pointer.event && typeof pointer.event.stopPropagation === 'function') pointer.event.stopPropagation();
+      this._executeContextAction(this.contextMenuPayload1, pointer);
+    });
+    this.contextHit2.on('pointerdown', (pointer) => {
+      if (pointer.event && typeof pointer.event.stopPropagation === 'function') pointer.event.stopPropagation();
+      this._executeContextAction(this.contextMenuPayload2, pointer);
     });
   }
 
   _showContextMenu(cfg) {
     const { x, y, options } = cfg;
-    const opt = options && options[0] ? options[0] : { label: 'Examine', action: 'examine', payload: null };
-    const label = this.contextMenu.list?.find((c) => c.type === 'Text') || this.contextMenu.getAt(1);
-    if (label?.setText) label.setText(opt.label || 'Examine');
-    this.contextMenuPayload = opt;
+    const label1 = this.contextMenu.getAt(1);
+    const label2 = this.contextMenu.getAt(2);
+    // Default single option
+    let opt1 = { label: 'Examine', action: 'examine', payload: null };
+    let opt2 = null;
+    if (Array.isArray(options) && options.length > 0) {
+      opt1 = options[0] || opt1;
+      opt2 = options[1] || null;
+    }
+    if (label1?.setText) label1.setText(opt1.label || 'Examine');
+    if (opt2 && label2?.setText) {
+      label2.setText(opt2.label || '');
+      label2.setVisible(true);
+      if (this.contextHit2) this.contextHit2.setVisible(true);
+    } else if (label2) {
+      label2.setVisible(false);
+      if (this.contextHit2) this.contextHit2.setVisible(false);
+    }
+    // Store both options; click handler chooses which
+    this.contextMenuPayload1 = opt1;
+    this.contextMenuPayload2 = opt2;
     this.contextMenu.setPosition(x, y);
     this.contextMenu.setVisible(true);
   }
 
   _hideContextMenu() {
     this.contextMenu.setVisible(false);
-    this.contextMenuPayload = null;
+    this.contextMenuPayload1 = null;
+    this.contextMenuPayload2 = null;
+  }
+
+  _executeContextAction(chosen, pointer) {
+    if (!chosen) { this._hideContextMenu(); return; }
+    const { action, payload } = chosen;
+    if (action === 'examine') {
+      const text = payload?.description || `It is a ${payload?.itemId || 'thing'}.`;
+      this.game.events.emit(EVENTS.CHAT_MESSAGE, { text });
+    } else if (action === 'pickup') {
+      const gs = this.scene.get('GameScene');
+      const itemId = payload?.itemId;
+      if (gs && itemId) {
+        // Enforce proximity before pickup via menu
+        const pickX = payload?.x; const pickY = payload?.y;
+        const player = gs.player;
+        if (typeof pickX === 'number' && typeof pickY === 'number' && player) {
+          const dist = Phaser.Math.Distance.Between(player.x, player.y, pickX, pickY);
+          if (dist > INTERACTION_DISTANCE) {
+            this.game.events.emit(EVENTS.CHAT_MESSAGE, { text: 'Move closer to pick that up.' });
+            this._hideContextMenu();
+            return;
+          }
+        }
+        gs.inventory.add(itemId, 1);
+        if (gs.audio && gs.audio.playSfx) gs.audio.playSfx(ASSET_KEYS.SFX_PICKUP);
+        if (gs.game && gs.game.events) gs.game.events.emit(EVENTS.INVENTORY_CHANGED, gs.inventory.getAll());
+        if (typeof gs._saveGame === 'function') gs._saveGame();
+        // Remove the pickup sprite near the payload coordinates
+        const px2 = payload?.x; const py2 = payload?.y;
+        if (typeof px2 === 'number' && typeof py2 === 'number') {
+          const candidates = gs.children.list || [];
+          let closest = null; let bestDist = Infinity;
+          for (const obj of candidates) {
+            if (!obj || !obj.active) continue;
+            if (typeof obj.itemId !== 'string') continue;
+            if (obj.itemId !== itemId) continue;
+            const dx = obj.x - px2; const dy = obj.y - py2;
+            const d2 = dx * dx + dy * dy;
+            if (d2 < bestDist) { bestDist = d2; closest = obj; }
+          }
+          if (closest && bestDist <= 32 * 32 && closest.destroy) closest.destroy();
+        }
+      }
+    } else if (action === 'smelt') {
+      const gs = this.scene.get('GameScene');
+      const furnace = gs?.interactables?.find((i) => i?.id === (payload?.id));
+      if (gs && furnace) {
+        if (!furnace._isPlayerNear()) {
+          this.game.events.emit(EVENTS.CHAT_MESSAGE, { text: 'Get closer to the furnace to smelt.' });
+        } else {
+          const changed = furnace.tryActivate(gs.inventory, gs.player, gs.audio, gs.tasks);
+          if (!changed) {
+            this.game.events.emit(EVENTS.CHAT_MESSAGE, { text: 'You lack the required materials.' });
+          } else if (typeof gs._saveGame === 'function') {
+            gs._saveGame();
+          }
+        }
+      }
+    }
+    this._hideContextMenu();
   }
 
   _showTooltip(text, x, y) {
@@ -306,6 +414,60 @@ export default class UIScene extends Phaser.Scene {
     if (this.hoverTooltip) {
       this.hoverTooltip.destroy();
       this.hoverTooltip = null;
+    }
+  }
+
+  _setSelectedInventory(index, itemId) {
+    this.selectedInventoryIndex = index;
+    this.selectedInventoryItemId = itemId;
+    this._renderInventory(this.inventory.getAll());
+    this.game.events.emit(EVENTS.UI_INVENTORY_SELECTED, { itemId });
+  }
+
+  _buildChatUi() {
+    const width = 360;
+    const lineHeight = 16;
+    const maxLines = 7;
+    this.chatMaxLines = maxLines;
+    this.chatLineHeight = lineHeight;
+    this.chatMessages = [];
+    const { width: sw, height: sh } = this.scale;
+    const container = this.add.container(16, sh - (lineHeight * maxLines + 20)).setScrollFactor(0).setDepth(12);
+    const bg = this.add.rectangle(0, 0, width, lineHeight * maxLines + 12, 0x0b1220, 0.6).setOrigin(0, 0).setStrokeStyle(1, 0x1e293b);
+    container.add(bg);
+    this.chatContainer = container;
+    this.chatBg = bg;
+    this.scale.on('resize', (gameSize) => {
+      const h = gameSize.height;
+      container.setPosition(16, h - (lineHeight * maxLines + 20));
+      bg.setSize(width, lineHeight * maxLines + 12);
+    });
+  }
+
+  _appendChat(text) {
+    if (!this.chatContainer) return;
+    const max = this.chatMaxLines || 7;
+    const yStart = 6;
+    const lh = this.chatLineHeight || 16;
+    const txt = this.add.text(8, yStart, text, { fontFamily: 'sans-serif', fontSize: '13px', color: '#e5e7eb', wordWrap: { width: (this.chatBg?.width || 340) - 16 } }).setOrigin(0, 0);
+    this.chatContainer.add(txt);
+    this.chatMessages.push(txt);
+    // Reflow
+    let y = yStart;
+    for (const t of this.chatMessages) {
+      t.setPosition(8, y);
+      y += Math.max(lh, t.height + 2);
+    }
+    // Trim
+    while (this.chatMessages.length > max) {
+      const old = this.chatMessages.shift();
+      if (old) old.destroy();
+      // Reflow again
+      y = yStart;
+      for (const t of this.chatMessages) {
+        t.setPosition(8, y);
+        y += Math.max(lh, t.height + 2);
+      }
     }
   }
 }

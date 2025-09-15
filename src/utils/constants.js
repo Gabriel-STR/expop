@@ -16,6 +16,11 @@ export const EVENTS = {
   UI_CONTEXT_HIDE: 'ui:context:hide',
   TASK_COMPLETED: 'task:completed',
   TASKS_UPDATED: 'tasks:updated',
-  LEVEL_COMPLETED: 'level:completed'
+  LEVEL_COMPLETED: 'level:completed',
+  CHAT_MESSAGE: 'chat:message',
+  UI_INVENTORY_SELECTED: 'ui:inventory:selected'
 };
+
+// Player must be within this many pixels to interact or pick up via mouse
+export const INTERACTION_DISTANCE = 48;
 

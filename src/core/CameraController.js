@@ -11,7 +11,7 @@ export default class CameraController {
       lerpY = 0.1,
       deadzone = { w: 160, h: 120 },
       minZoom = 0.5,
-      maxZoom = 3,
+      maxZoom = 7,
       zoomStep = 0.1
     } = opts;
 
