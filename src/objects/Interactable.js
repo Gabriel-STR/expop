@@ -14,6 +14,7 @@ export default class Interactable extends Phaser.GameObjects.Container {
     this.description = config.description || 'An object.';
     this.interactMessage = config.interactMessage || null;
     this.path = config.path || null; // normalized path string if provided
+    this.layers = Array.isArray(config.layers) ? config.layers.slice() : null; // optional layered visuals
     this.requiresItemId = config.requiresItemId || null;
     this.requiresAllItemIds = Array.isArray(config.requiresAllItemIds) ? config.requiresAllItemIds.slice() : null;
     this.grantItemId = config.grantItemId || null;
@@ -68,25 +69,60 @@ export default class Interactable extends Phaser.GameObjects.Container {
   }
 
   _buildVisual() {
-    const g = this.scene.add.graphics();
-    if (this.path) {
-      drawGraphicsPath(g, this.path, this.width, this.height, {
-        fillColor: this.color,
-        strokeColor: 0x111111,
-        lineWidth: 2,
-        alpha: 1,
-      });
+    // Support layered visuals; fallback to single path/shape
+    const addLayerGraphic = (layer, wBase, hBase) => {
+      const gl = this.scene.add.graphics();
+      const lw = Math.max(0, Math.floor((layer.lineWidth ?? 1)));
+      const w = wBase * (layer.scaleX ?? 1);
+      const h = hBase * (layer.scaleY ?? 1);
+      const offX = (layer.offsetX ?? 0) * wBase;
+      const offY = (layer.offsetY ?? 0) * hBase;
+      const fillColor = (layer.color === null ? null : (layer.color ?? this.color));
+      const strokeColor = (layer.strokeColor === null ? null : (layer.strokeColor ?? '#111111'));
+      if (layer.path) {
+        drawGraphicsPath(gl, layer.path, w, h, {
+          fillColor,
+          strokeColor,
+          lineWidth: lw,
+          alpha: layer.alpha ?? 1,
+        });
+      } else {
+        drawGraphicsShape(gl, layer.shape || 'rect', w, h, {
+          fillColor,
+          strokeColor,
+          lineWidth: lw,
+          cornerRadius: layer.cornerRadius ?? 8,
+          alpha: layer.alpha ?? 1,
+        });
+      }
+      gl.setPosition(offX, offY);
+      this.add(gl);
+      return gl;
+    };
+
+    if (Array.isArray(this.layers) && this.layers.length > 0) {
+      for (const layer of this.layers) addLayerGraphic(layer, this.width, this.height);
     } else {
-      drawGraphicsShape(g, this.shape, this.width, this.height, {
-        fillColor: this.color,
-        strokeColor: 0x111111,
-        lineWidth: 2,
-        cornerRadius: 8,
-        alpha: 1,
-      });
+      const g = this.scene.add.graphics();
+      if (this.path) {
+        drawGraphicsPath(g, this.path, this.width, this.height, {
+          fillColor: this.color,
+          strokeColor: 0x111111,
+          lineWidth: 2,
+          alpha: 1,
+        });
+      } else {
+        drawGraphicsShape(g, this.shape, this.width, this.height, {
+          fillColor: this.color,
+          strokeColor: 0x111111,
+          lineWidth: 2,
+          cornerRadius: 8,
+          alpha: 1,
+        });
+      }
+      this.add(g);
+      this.visual = g;
     }
-    this.add(g);
-    this.visual = g;
   }
 
   setActivated(active) {

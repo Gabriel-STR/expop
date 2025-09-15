@@ -12,12 +12,7 @@ export default class MenuScene extends Phaser.Scene {
     this.dataStore = new DataStore();
     this.audio = new AudioManager(this, this.dataStore);
 
-    const content = this.cache.json.get('gameContent') || {};
-    const wantsMusic = (content?.audio?.music?.type || 'loop') !== 'none';
-    const hasMusicInCache = this.cache.audio && this.cache.audio.exists && this.cache.audio.exists(ASSET_KEYS.MUSIC_THEME);
-    if (wantsMusic && hasMusicInCache) {
-      this.audio.playMusic(ASSET_KEYS.MUSIC_THEME, { loop: true, fade: 300 });
-    }
+    // Disable auto-playing menu music at start
 
     const { width, height } = this.scale;
     const title = this.add.text(width / 2, height * 0.25, 'BrainPOP Expedition', {

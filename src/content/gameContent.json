@@ -1,186 +1,492 @@
 {
-    "version": 1,
-    "topic": "Mining and Smithing",
-    "map": {
-    "tilemapKey": "mining_and_smithing_map",
+  "version": 1,
+  "topic": "Metals",
+  "map": {
+    "tilemapKey": "metalLabMap",
     "tilesetKey": "tileset",
-    "tilesetName": "mining_and_smithing_tileset",
+    "tilesetName": "MetalLabTiles",
     "tileWidth": 32,
     "tileHeight": 32,
     "layers": [
-    { "name": "World", "collidesByProperty": { "collides": true } }
+      {
+        "name": "groundLayer",
+        "collidesByProperty": {
+          "collides": true
+        }
+      }
     ],
-    "blockedTileIndices": [2,4,5],
+    "blockedTileIndices": [1, 2, 4, 6],
     "tilemapData": {
-    "height": 20,
-    "infinite": false,
-    "layers": [
-    {
-    "data": [
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,1,
-    1,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,1,
-    1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,1,
-    1,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-    ],
-    "height": 20,
-    "id": 1,
-    "name": "World",
-    "opacity": 1,
-    "type": "tilelayer",
-    "visible": 1,
-    "width": 30,
-    "x": 0,
-    "y": 0,
-    "properties": [
-    { "name": "collides", "type": "bool", "value": false }
-    ]
+      "height": 20,
+      "infinite": false,
+      "layers": [
+        {
+          "data": [
+            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+            1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,2,3,3,2,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,2,3,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,1,
+            1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,4,4,2,2,0,0,0,0,1,
+            1,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,4,4,2,2,0,0,0,0,1,
+            1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,1,
+            1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,2,6,6,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,1,
+            1,0,2,6,6,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+          ],
+          "height": 20,
+          "id": 1,
+          "name": "Tile Layer 1",
+          "opacity": 1,
+          "type": "tilelayer",
+          "visible": true,
+          "width": 30,
+          "x": 0,
+          "y": 0,
+          "properties": []
+        }
+      ],
+      "nextlayerid": 2,
+      "nextobjectid": 1,
+      "orientation": "orthogonal",
+      "renderorder": "right-down",
+      "tiledversion": "1.9.2",
+      "tileheight": 32,
+      "tilesets": [
+        {
+          "columns": 7,
+          "firstgid": 1,
+          "image": "tileset.png",
+          "imageheight": 32,
+          "imagewidth": 224,
+          "margin": 0,
+          "name": "MetalLabTiles",
+          "spacing": 0,
+          "tilecount": 7,
+          "tileheight": 32,
+          "tilewidth": 32,
+          "tiles": [
+            { "id": 0, "properties": [] },
+            { "id": 1, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+            { "id": 2, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+            { "id": 3, "properties": [] },
+            { "id": 4, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+            { "id": 5, "properties": [] },
+            { "id": 6, "properties": [{ "name": "collides", "type": "bool", "value": true }] }
+          ]
+        }
+      ],
+      "tilewidth": 32,
+      "type": "map",
+      "version": "1.9",
+      "width": 30
     }
-    ],
-    "nextlayerid": 2,
-    "nextobjectid": 1,
-    "orientation": "orthogonal",
-    "renderorder": "right-down",
-    "tiledversion": "1.10.2",
-    "tileheight": 32,
-    "tilesets": [
-    {
-    "columns": 7,
-    "firstgid": 1,
-    "image": "tileset.png",
-    "imageheight": 32,
-    "imagewidth": 224,
-    "margin": 0,
-    "name": "mining_and_smithing_tileset",
-    "spacing": 0,
-    "tilecount": 7,
-    "tileheight": 32,
-    "tilewidth": 32,
-    "tiles": [
-    { "id": 2, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
-    { "id": 3, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
-    { "id": 4, "properties": [{ "name": "collides", "type": "bool", "value": true }] }
-    ]
-    }
-    ],
-    "tilewidth": 32,
-    "type": "map",
-    "version": "1.10",
-    "width": 30
-    }
-    },
-    "tileset": {
+  },
+  "tileset": {
     "tileSize": 32,
     "tiles": [
-        {
-            "id": 0,
-            "layers": [
-              { "shape": "rect", "color": "#4caf50", "strokeColor": "#2e7d32", "lineWidth": 1 },
-              { "path": "M 0 0.92 L 1 0.92 L 1 1 L 0 1 Z", "color": "#388e3c", "strokeColor": null, "lineWidth": 0 },
-              { "path": "M 0 0 L 1 0 L 1 0.08 L 0 0.08 Z", "color": "#81c784", "strokeColor": null, "lineWidth": 0 }
-
-               ]
-          },
-      { "id": 1, "layers": [
-        { "shape": "roundedRect", "color": "#6b7280", "strokeColor": "#111111", "lineWidth": 1, "cornerRadius": 4 },
-        { "path": "M 0 0.33 L 1 0.33 M 0 0.66 L 1 0.66 M 0 0 L 0 1 M 0.5 0.33 L 0.5 0 M 1 0.66 L 1 0.33 M 0.25 1 L 0.25 0.66 M 0.75 0.33 L 0.75 0", "color": null, "strokeColor": "#374151", "lineWidth": 1 },
-        { "path": "M 0.1 0.2 L 0.15 0.05 M 0.25 0.15 L 0.28 0.05 M 0.4 0.2 L 0.42 0.08", "color": null, "strokeColor": "#66bb6a", "lineWidth": 1 }
-      ]},
-      { "id": 2, "layers": [
-        { "shape": "rect", "color": "#1d4ed8", "strokeColor": "#0b3ea0", "lineWidth": 1 },
-        { "path": "M 0 0.3 L 0.2 0.35 L 0.4 0.3 L 0.6 0.35 L 0.8 0.3 L 1 0.35 M 0 0.6 L 0.2 0.65 L 0.4 0.6 L 0.6 0.65 L 0.8 0.6 L 1 0.65", "color": null, "strokeColor": "#bfdbfe", "lineWidth": 1 }
-      ]},
-      { "id": 3, "layers": [
-        { "shape": "roundedRect", "color": "#6b4f2a", "strokeColor": "#4a3318", "lineWidth": 1, "cornerRadius": 4 },
-        { "shape": "circle", "color": "#8b5e34", "strokeColor": "#3f2a14", "lineWidth": 1, "scaleX": 0.6, "scaleY": 0.6 },
-        { "shape": "circle", "color": "#a97142", "strokeColor": "#3f2a14", "lineWidth": 1, "scaleX": 0.35, "scaleY": 0.35 }
-      ]},
-      { "id": 4, "layers": [
-        { "shape": "rect", "color": "#b91c1c", "strokeColor": "#7f1d1d", "lineWidth": 1 },
-        { "path": "M 0 0.2 L 0.2 0.25 L 0.3 0.2 L 0.5 0.3 L 0.7 0.25 L 1 0.35 M 0 0.6 L 0.3 0.55 L 0.5 0.65 L 0.8 0.6 L 1 0.7", "color": null, "strokeColor": "#fb923c", "lineWidth": 1 }
-      ]},
-      { "id": 5, "layers": [
-        { "shape": "rect", "color": "#d9c179", "strokeColor": "#b89b5e", "lineWidth": 1 },
-        { "path": "M 0 0.15 L 1 0.15 M 0 0.85 L 1 0.85", "color": null, "strokeColor": "#c8b06e", "lineWidth": 1 }
-      ]},
-      { "id": 6, "layers": [
-        { "shape": "rect", "color": "#3f8f3a", "strokeColor": "#1f6f1a", "lineWidth": 1 },
-        { "path": "M 0.1 0.1 L 0.2 0.2 M 0.8 0.2 L 0.9 0.1 M 0.3 0.8 L 0.4 0.7 M 0.6 0.7 L 0.7 0.8", "color": null, "strokeColor": "#61c356", "lineWidth": 1 }
-      ]}
+      {
+        "id": 0,
+        "layers": [
+          { "shape": "rect", "color": "#E7E9EC", "strokeColor": "#C9CED3", "lineWidth": 1 },
+          { "path": "M0.05 0.05 L0.95 0.05 L0.95 0.15 L0.05 0.15 Z", "color": "#F5F6F7", "strokeColor": null, "alpha": 0.7 },
+          { "path": "M0.05 0.85 L0.95 0.85 L0.95 0.95 L0.05 0.95 Z", "color": "#D6DADF", "strokeColor": null, "alpha": 0.7 },
+          { "path": "M0.05 0.05 L0.15 0.05 L0.15 0.95 L0.05 0.95 Z", "color": "#F5F6F7", "strokeColor": null, "alpha": 0.7 },
+          { "path": "M0.85 0.05 L0.95 0.05 L0.95 0.95 L0.85 0.95 Z", "color": "#D6DADF", "strokeColor": null, "alpha": 0.7 },
+          { "shape": "circle", "color": "#B6BDC4", "strokeColor": null, "scaleX": 0.06, "scaleY": 0.06, "offsetX": -0.34, "offsetY": -0.34 },
+          { "shape": "circle", "color": "#B6BDC4", "strokeColor": null, "scaleX": 0.06, "scaleY": 0.06, "offsetX": 0.34, "offsetY": -0.34 },
+          { "shape": "circle", "color": "#AAB1B8", "strokeColor": null, "scaleX": 0.06, "scaleY": 0.06, "offsetX": -0.34, "offsetY": 0.34 },
+          { "shape": "circle", "color": "#AAB1B8", "strokeColor": null, "scaleX": 0.06, "scaleY": 0.06, "offsetX": 0.34, "offsetY": 0.34 }
+        ]
+      },
+      {
+        "id": 1,
+        "layers": [
+          { "shape": "rect", "color": "#2C2F33", "strokeColor": "#141618", "lineWidth": 2 },
+          { "path": "M0.18 0.05 L0.18 0.95", "color": null, "strokeColor": "#0D0F11", "lineWidth": 2 },
+          { "path": "M0.50 0.05 L0.50 0.95", "color": null, "strokeColor": "#0D0F11", "lineWidth": 2 },
+          { "path": "M0.82 0.05 L0.82 0.95", "color": null, "strokeColor": "#0D0F11", "lineWidth": 2 },
+          { "path": "M0.00 0.00 L1.00 0.00 L1.00 0.06 L0.00 0.06 Z", "color": "#3B3F44", "strokeColor": null, "alpha": 0.35 }
+        ]
+      },
+      {
+        "id": 2,
+        "layers": [
+          { "shape": "rect", "color": "#8F959B", "strokeColor": "#5D6368", "lineWidth": 2 },
+          { "path": "M0.08 0.66 L0.92 0.66 L0.92 0.82 L0.08 0.82 Z", "color": "#5B6065", "strokeColor": "#3E4347", "lineWidth": 1 },
+          { "path": "M0.10 0.70 L0.30 0.70 L0.30 0.78 L0.10 0.78 Z", "color": "#2F3133", "strokeColor": null },
+          { "path": "M0.35 0.70 L0.55 0.70 L0.55 0.78 L0.35 0.78 Z", "color": "#2F3133", "strokeColor": null },
+          { "path": "M0.60 0.70 L0.80 0.70 L0.80 0.78 L0.60 0.78 Z", "color": "#2F3133", "strokeColor": null },
+          { "path": "M0.00 0.44 L1.00 0.44 L1.00 0.56 L0.00 0.56 Z", "color": "#FFD34A", "strokeColor": "#A87716", "lineWidth": 1, "alpha": 0.35 }
+        ]
+      },
+      {
+        "id": 3,
+        "layers": [
+          { "shape": "rect", "color": "#BEE3F8", "strokeColor": "#0A3F6A", "lineWidth": 2 },
+          { "path": "M0.12 0.18 L0.88 0.18", "color": null, "strokeColor": "#0A3F6A", "lineWidth": 1 },
+          { "path": "M0.12 0.30 L0.88 0.30", "color": null, "strokeColor": "#0A3F6A", "lineWidth": 1 },
+          { "path": "M0.12 0.42 L0.88 0.42", "color": null, "strokeColor": "#0A3F6A", "lineWidth": 1 },
+          { "path": "M0.12 0.54 L0.88 0.54", "color": null, "strokeColor": "#0A3F6A", "lineWidth": 1 },
+          { "path": "M0.12 0.66 L0.88 0.66", "color": null, "strokeColor": "#0A3F6A", "lineWidth": 1 },
+          { "path": "M0.22 0.12 L0.22 0.78", "color": null, "strokeColor": "#0A3F6A", "lineWidth": 1 },
+          { "path": "M0.34 0.12 L0.34 0.78", "color": null, "strokeColor": "#0A3F6A", "lineWidth": 1 },
+          { "path": "M0.46 0.12 L0.46 0.78", "color": null, "strokeColor": "#0A3F6A", "lineWidth": 1 },
+          { "path": "M0.58 0.12 L0.58 0.78", "color": null, "strokeColor": "#0A3F6A", "lineWidth": 1 },
+          { "path": "M0.70 0.12 L0.70 0.78", "color": null, "strokeColor": "#0A3F6A", "lineWidth": 1 },
+          { "path": "M0.18 0.22 L0.30 0.22 L0.30 0.34 L0.18 0.34 Z", "color": "#7C3AED", "strokeColor": null, "alpha": 0.9 },
+          { "path": "M0.42 0.22 L0.54 0.22 L0.54 0.34 L0.42 0.34 Z", "color": "#F59E0B", "strokeColor": null, "alpha": 0.9 },
+          { "path": "M0.66 0.34 L0.78 0.34 L0.78 0.46 L0.66 0.46 Z", "color": "#10B981", "strokeColor": null, "alpha": 0.9 }
+        ]
+      },
+      {
+        "id": 4,
+        "layers": [
+          { "shape": "rect", "color": "#6C0F0F", "strokeColor": "#3A0606", "lineWidth": 2 },
+          { "path": "M0.08 0.18 L0.92 0.18 L0.92 0.82 L0.08 0.82 Z", "color": "#2B0A0A", "strokeColor": "#3A0606", "lineWidth": 1 },
+          { "path": "M0.12 0.50 C0.28 0.28 0.72 0.72 0.88 0.50", "color": null, "strokeColor": "#FF7A1A", "lineWidth": 2, "alpha": 0.9 },
+          { "path": "M0.12 0.58 C0.28 0.36 0.72 0.80 0.88 0.58", "color": null, "strokeColor": "#FFD166", "lineWidth": 2, "alpha": 0.75 },
+          { "path": "M0.12 0.42 C0.28 0.20 0.72 0.64 0.88 0.42", "color": null, "strokeColor": "#FF4D00", "lineWidth": 2, "alpha": 0.6 }
+        ]
+      },
+      {
+        "id": 5,
+        "layers": [
+          { "shape": "rect", "color": "#6B5138", "strokeColor": "#3F2814", "lineWidth": 1 },
+          { "path": "M0.00 0.24 L1.00 0.24 L1.00 0.28 L0.00 0.28 Z", "color": "#8A6A4B", "strokeColor": null, "alpha": 0.9 },
+          { "path": "M0.00 0.52 L1.00 0.52 L1.00 0.56 L0.00 0.56 Z", "color": "#8A6A4B", "strokeColor": null, "alpha": 0.9 },
+          { "path": "M0.00 0.80 L1.00 0.80 L1.00 0.84 L0.00 0.84 Z", "color": "#8A6A4B", "strokeColor": null, "alpha": 0.9 },
+          { "path": "M0.06 0.10 L0.94 0.10 L0.94 0.18 L0.06 0.18 Z", "color": "#2B2016", "strokeColor": "#110C08", "lineWidth": 1, "alpha": 0.7 },
+          { "path": "M0.06 0.38 L0.94 0.38 L0.94 0.46 L0.06 0.46 Z", "color": "#2B2016", "strokeColor": "#110C08", "lineWidth": 1, "alpha": 0.7 },
+          { "path": "M0.06 0.66 L0.94 0.66 L0.94 0.74 L0.06 0.74 Z", "color": "#2B2016", "strokeColor": "#110C08", "lineWidth": 1, "alpha": 0.7 }
+        ]
+      },
+      {
+        "id": 6,
+        "layers": [
+          { "shape": "rect", "color": "#6E7A84", "strokeColor": "#3A474F", "lineWidth": 2 },
+          { "path": "M0.12 0.22 L0.88 0.22 L0.88 0.54 L0.12 0.54 Z", "color": "#C5CCD2", "strokeColor": "#9AA2A8", "lineWidth": 1 },
+          { "path": "M0.14 0.24 L0.86 0.24 L0.86 0.32 L0.14 0.32 Z", "color": "#E9EDF0", "strokeColor": null, "alpha": 0.6 },
+          { "path": "M0.14 0.44 L0.86 0.44 L0.86 0.52 L0.14 0.52 Z", "color": "#9DA6AD", "strokeColor": null, "alpha": 0.6 },
+          { "shape": "circle", "color": "#D32F2F", "strokeColor": "#7A1616", "lineWidth": 1, "scaleX": 0.10, "scaleY": 0.10, "offsetX": 0.36, "offsetY": 0.26 },
+          { "path": "M0.00 0.64 L1.00 0.64 L1.00 0.96 L0.00 0.96 Z", "color": "#4B545B", "strokeColor": "#2E363B", "lineWidth": 1 }
+        ]
+      }
     ]
-    },
-    "player": {
-    "shape": "rect",
-    "color": "#3b82f6",
+  },
+  "player": {
+    "shape": "circle",
+    "color": "#0077B6",
     "width": 24,
-    "height": 28
-    },
+    "height": 24
+  },
     "items": {
-    "catalog": [
-    { "id": "COPPER_ORE", "name": "Copper Ore", "description": "Chunk of copper-rich rock.", "path": "M 0.2 0.3 L 0.8 0.3 L 0.9 0.6 L 0.7 0.85 L 0.3 0.85 L 0.1 0.6 Z", "color": "#b45309" },
-    { "id": "TIN_ORE", "name": "Tin Ore", "description": "Pale stone with tin flecks.", "path": "M 0.2 0.25 L 0.8 0.25 L 0.9 0.55 L 0.7 0.85 L 0.3 0.85 L 0.1 0.55 Z", "color": "#9ca3af" },
-    { "id": "TONGS", "name": "Tongs", "description": "Helps handle hot metal safely.", "path": "M 0.25 0.2 L 0.4 0.2 L 0.55 0.5 L 0.7 0.2 L 0.85 0.2 L 0.6 0.8 L 0.45 0.8 Z", "color": "#4b5563" },
-    { "id": "BRONZE_BAR", "name": "Bronze Bar", "description": "A newly smelted bronze ingot.", "path": "M 0.15 0.5 L 0.85 0.5 L 0.75 0.7 L 0.25 0.7 Z", "color": "#cd7f32" }
-],
-"spawns": [
-    { "id": "COPPER_ORE", "x": 112, "y": 112 },
-    { "id": "TIN_ORE", "x": 208, "y": 176 },
-    { "id": "TONGS", "x": 336, "y": 272 }
-    ]
+      "catalog": [
+        {
+          "id": "IRON_ORE",
+          "name": "Iron Ore",
+          "description": "Raw iron, freshly mined. Needs smelting to refine.",
+          "layers": [
+            { "path": "M0.28 0.20 L0.58 0.16 L0.78 0.34 L0.74 0.66 L0.54 0.84 L0.30 0.76 L0.18 0.52 L0.22 0.32 Z", "color": "#4b3a2f", "strokeColor": "#231a14", "lineWidth": 1 },
+            { "path": "M0.30 0.26 L0.54 0.22 L0.68 0.34 L0.46 0.40 Z", "color": "#6d5444", "strokeColor": null, "alpha": 0.95 },
+            { "path": "M0.46 0.40 L0.68 0.34 L0.66 0.56 L0.50 0.62 Z", "color": "#5b463a", "strokeColor": null, "alpha": 0.95 },
+            { "path": "M0.30 0.26 L0.46 0.40 L0.50 0.62 L0.30 0.56 L0.24 0.40 Z", "color": "#3e2f26", "strokeColor": null, "alpha": 0.95 },
+            { "path": "M0.20 0.52 L0.30 0.76 L0.54 0.84 L0.50 0.62 Z", "color": "#2f231c", "strokeColor": null, "alpha": 0.9 },
+            { "shape": "circle", "color": "#a88a74", "strokeColor": null, "scaleX": 0.06, "scaleY": 0.04, "offsetX": -0.14, "offsetY": -0.02, "alpha": 0.9 },
+            { "shape": "circle", "color": "#8c6f5a", "strokeColor": null, "scaleX": 0.05, "scaleY": 0.04, "offsetX": 0.10, "offsetY": 0.06, "alpha": 0.9 },
+            { "shape": "circle", "color": "#c0a893", "strokeColor": null, "scaleX": 0.04, "scaleY": 0.03, "offsetX": 0.00, "offsetY": -0.10, "alpha": 0.8 },
+            { "path": "M0.34 0.22 L0.54 0.20", "color": null, "strokeColor": "#bda58e", "lineWidth": 1, "alpha": 0.25 }
+          ]
+        },
+        {
+          "id": "COPPER_INGOT",
+          "name": "Copper Ingot",
+          "description": "A refined bar of copper. Known for ductility and conductivity.",
+          "layers": [
+            { "path": "M0.20 0.46 L0.80 0.46 L0.72 0.78 L0.28 0.78 Z", "color": "#b86a2e", "strokeColor": "#6e3e18", "lineWidth": 1 },
+            { "path": "M0.30 0.30 L0.70 0.30 L0.80 0.46 L0.20 0.46 Z", "color": "#d38446", "strokeColor": "#9a5527", "lineWidth": 1 },
+            { "path": "M0.22 0.46 L0.28 0.78 L0.20 0.46 Z", "color": "#a35928", "strokeColor": null, "alpha": 0.9 },
+            { "path": "M0.78 0.46 L0.72 0.78 L0.80 0.46 Z", "color": "#9e5324", "strokeColor": null, "alpha": 0.9 },
+            { "path": "M0.32 0.34 L0.68 0.34", "color": null, "strokeColor": "#f1c28d", "lineWidth": 1 },
+            { "path": "M0.30 0.72 L0.70 0.72", "color": null, "strokeColor": "#7f4a21", "lineWidth": 1, "alpha": 0.9 },
+            { "path": "M0.42 0.56 L0.58 0.56 L0.58 0.66 L0.42 0.66 Z", "color": "#9a5124", "strokeColor": "#6f3b17", "lineWidth": 1, "alpha": 0.9 },
+            { "shape": "circle", "color": "#f6d7ad", "strokeColor": null, "scaleX": 0.06, "scaleY": 0.06, "offsetX": -0.26, "offsetY": -0.18, "alpha": 0.85 }
+          ]
+        },
+        {
+          "id": "STEEL_ALLOY",
+          "name": "Steel Alloy",
+          "description": "A strong and hard alloy of iron and carbon. Perfect for tools!",
+          "layers": [
+            { "shape": "roundedRect", "color": "#6e767d", "strokeColor": "#2c3135", "lineWidth": 1, "cornerRadius": 4 },
+            { "path": "M0.00 0.00 L1.00 1.00", "color": null, "strokeColor": "#aeb6bc", "lineWidth": 6, "alpha": 0.10 },
+            { "path": "M0.00 0.20 L1.00 1.20", "color": null, "strokeColor": "#c7d0d6", "lineWidth": 4, "alpha": 0.08 },
+            { "path": "M-0.10 0.00 L0.90 1.00", "color": null, "strokeColor": "#4a5156", "lineWidth": 5, "alpha": 0.08 },
+            { "path": "M0.10 0.26 L0.90 0.26 L0.90 0.34 L0.10 0.34 Z", "color": "#9aa3a9", "strokeColor": null, "alpha": 0.9 },
+            { "path": "M0.10 0.66 L0.90 0.66 L0.90 0.74 L0.10 0.74 Z", "color": "#4b5257", "strokeColor": null, "alpha": 0.9 },
+            { "shape": "circle", "color": "#e0e5ea", "strokeColor": "#80878d", "lineWidth": 1, "scaleX": 0.06, "scaleY": 0.06, "offsetX": -0.26, "offsetY": -0.18 },
+            { "shape": "circle", "color": "#e0e5ea", "strokeColor": "#80878d", "lineWidth": 1, "scaleX": 0.06, "scaleY": 0.06, "offsetX": 0.26, "offsetY": -0.18 },
+            { "shape": "circle", "color": "#e0e5ea", "strokeColor": "#80878d", "lineWidth": 1, "scaleX": 0.06, "scaleY": 0.06, "offsetX": -0.26, "offsetY": 0.18 },
+            { "shape": "circle", "color": "#e0e5ea", "strokeColor": "#80878d", "lineWidth": 1, "scaleX": 0.06, "scaleY": 0.06, "offsetX": 0.26, "offsetY": 0.18 }
+          ]
+        },
+        {
+          "id": "OXIDIZED_METAL",
+          "name": "Oxidized Metal Sample",
+          "description": "A piece of metal that has reacted with oxygen, showing corrosion.",
+          "layers": [
+            { "shape": "roundedRect", "color": "#5b5650", "strokeColor": "#3a3631", "lineWidth": 1, "cornerRadius": 4 },
+            { "path": "M0.10 0.18 L0.90 0.18 L0.90 0.26 L0.10 0.26 Z", "color": "#746f67", "strokeColor": null, "alpha": 0.5 },
+            { "path": "M0.06 0.78 L0.94 0.78 L0.94 0.86 L0.06 0.86 Z", "color": "#3f3a34", "strokeColor": null, "alpha": 0.5 },
+            { "shape": "circle", "color": "#9a3f1e", "strokeColor": null, "scaleX": 0.22, "scaleY": 0.16, "offsetX": -0.18, "offsetY": -0.06, "alpha": 0.9 },
+            { "shape": "circle", "color": "#b55228", "strokeColor": null, "scaleX": 0.18, "scaleY": 0.14, "offsetX": 0.16, "offsetY": 0.02, "alpha": 0.85 },
+            { "shape": "circle", "color": "#7a2f16", "strokeColor": null, "scaleX": 0.12, "scaleY": 0.10, "offsetX": -0.02, "offsetY": 0.18, "alpha": 0.85 },
+            { "path": "M0.22 0.40 L0.32 0.46 L0.30 0.56 L0.20 0.52 Z", "color": "#4e2412", "strokeColor": null, "alpha": 0.8 },
+            { "path": "M0.64 0.28 L0.74 0.34 L0.70 0.44 L0.60 0.40 Z", "color": "#4e2412", "strokeColor": null, "alpha": 0.8 },
+            { "path": "M0.08 0.12 L0.92 0.12 L0.92 0.18 L0.08 0.18 Z", "color": "#88a08a", "strokeColor": null, "alpha": 0.10 }
+          ]
+        },
+        {
+          "id": "DUCTILITY_TESTER",
+          "name": "Ductility Tester",
+          "description": "A simple device to test a metal's ability to be drawn into wire.",
+          "layers": [
+            { "shape": "roundedRect", "color": "#7a8288", "strokeColor": "#3e4347", "lineWidth": 1, "cornerRadius": 6 },
+            { "path": "M0.18 0.28 L0.82 0.28 L0.82 0.72 L0.18 0.72 Z", "color": "#161a1d", "strokeColor": "#0f1214", "lineWidth": 1 },
+            { "shape": "circle", "color": "#d9dde0", "strokeColor": "#7f878c", "lineWidth": 1, "scaleX": 0.18, "scaleY": 0.18, "offsetX": -0.26, "offsetY": 0.00 },
+            { "shape": "circle", "color": "#d9dde0", "strokeColor": "#7f878c", "lineWidth": 1, "scaleX": 0.18, "scaleY": 0.18, "offsetX": 0.26, "offsetY": 0.00 },
+            { "path": "M0.22 0.50 L0.78 0.50", "color": null, "strokeColor": "#e5e9ec", "lineWidth": 2 },
+            { "path": "M0.22 0.50 L0.42 0.50 C0.46 0.46 0.54 0.46 0.58 0.50 L0.78 0.50", "color": null, "strokeColor": "#0f1214", "lineWidth": 1 },
+            { "path": "M0.46 0.28 L0.54 0.28 L0.54 0.40 L0.46 0.40 Z", "color": "#b0b6bb", "strokeColor": "#6c7378", "lineWidth": 1 },
+            { "path": "M0.46 0.60 L0.54 0.60 L0.54 0.72 L0.46 0.72 Z", "color": "#b0b6bb", "strokeColor": "#6c7378", "lineWidth": 1 },
+            { "shape": "circle", "color": "#eef2f5", "strokeColor": null, "scaleX": 0.06, "scaleY": 0.06, "offsetX": -0.32, "offsetY": -0.22 },
+            { "path": "M0.66 0.32 L0.84 0.32 L0.84 0.44 L0.66 0.44 Z", "color": "#2a2f33", "strokeColor": "#0f1214", "lineWidth": 1 },
+            { "path": "M0.75 0.38 L0.82 0.38", "color": null, "strokeColor": "#e6ebee", "lineWidth": 1 }
+          ]
+        }
+      ],
+      "spawns": [
+        { "id": "IRON_ORE", "x": 320, "y": 96 },
+        { "id": "IRON_ORE", "x": 160, "y": 320 },
+        { "id": "DUCTILITY_TESTER", "x": 480, "y": 480 },
+        { "id": "OXIDIZED_METAL", "x": 800, "y": 96 }
+      ]
     },
-    "interactables": [
+  "interactables": [
     {
-    "id": "furnace",
-    "x": 656,
-    "y": 336,
-    "width": 32,
-    "height": 28,
-    "path": "M 0 0 L 1 0 L 1 1 L 0 1 Z",
-    "color": "#4b5563",
-    "solid": false,
-    "requiresAllItemIds": ["COPPER_ORE", "TIN_ORE"],
-    "grantItemId": "BRONZE_BAR",
-    "grantQty": 1,
-    "onActivateTaskId": "SMELT_BRONZE",
-    "completesLevel": false,
-    "description": "A hot furnace. Combine copper and tin ores here to smelt a bronze bar.",
-    "interactMessage": "You stoke the furnace. It roars to life."
+      "id": "PT_VIEWER",
+      "x": 96,
+      "y": 96,
+      "width": 80,
+      "height": 80,
+      "layers": [
+        { "shape": "roundedRect", "color": "#0F172A", "strokeColor": "#0B1220", "lineWidth": 2, "cornerRadius": 8 },
+        { "shape": "roundedRect", "color": "#1D2533", "strokeColor": "#0B1220", "lineWidth": 2, "cornerRadius": 6, "scaleX": 0.96, "scaleY": 0.96 },
+        { "shape": "rect", "color": "#0B1220", "strokeColor": null, "scaleX": 1.0, "scaleY": 0.18, "offsetY": -0.38 },
+        { "shape": "circle", "color": "#EF4444", "strokeColor": null, "scaleX": 0.05, "scaleY": 0.05, "offsetX": -0.36, "offsetY": -0.40 },
+        { "shape": "circle", "color": "#F59E0B", "strokeColor": null, "scaleX": 0.05, "scaleY": 0.05, "offsetX": -0.28, "offsetY": -0.40 },
+        { "shape": "circle", "color": "#22C55E", "strokeColor": null, "scaleX": 0.05, "scaleY": 0.05, "offsetX": -0.20, "offsetY": -0.40 },
+
+        { "path": "M0.12 0.14 L0.88 0.14 L0.88 0.88 L0.12 0.88 Z", "color": "#D9F0FA", "strokeColor": "#0B1220", "lineWidth": 2 },
+        { "path": "M0.18 0.26 L0.82 0.26", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+        { "path": "M0.18 0.36 L0.82 0.36", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+        { "path": "M0.18 0.46 L0.82 0.46", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+        { "path": "M0.18 0.56 L0.82 0.56", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+        { "path": "M0.18 0.66 L0.82 0.66", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+
+        { "path": "M0.22 0.22 L0.22 0.80", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+        { "path": "M0.32 0.22 L0.32 0.80", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+        { "path": "M0.42 0.22 L0.42 0.80", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+        { "path": "M0.52 0.22 L0.52 0.80", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+        { "path": "M0.62 0.22 L0.62 0.80", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+        { "path": "M0.72 0.22 L0.72 0.80", "color": null, "strokeColor": "#0B1220", "lineWidth": 1 },
+
+        { "path": "M0.18 0.28 L0.30 0.28 L0.30 0.66 L0.18 0.66 Z", "color": "#9BE8FF", "strokeColor": null, "alpha": 0.30 },
+        { "path": "M0.30 0.28 L0.54 0.28 L0.54 0.66 L0.30 0.66 Z", "color": "#FFD27A", "strokeColor": null, "alpha": 0.22 },
+        { "path": "M0.54 0.28 L0.82 0.28 L0.82 0.66 L0.54 0.66 Z", "color": "#CDB4FF", "strokeColor": null, "alpha": 0.22 },
+        { "path": "M0.20 0.70 L0.80 0.70 L0.80 0.80 L0.20 0.80 Z", "color": "#A7F3D0", "strokeColor": null, "alpha": 0.25 }
+      ],
+      "solid": false,
+      "requiresAllItemIds": [],
+      "grantItemId": null,
+      "grantQty": 0,
+      "onActivateTaskId": "TASK_1_COLLECT_ORE",
+      "completesLevel": false,
+      "description": "Examine the Periodic Table to understand metal classifications.",
+      "interactMessage": "Learn about metals in the Periodic Table. (Task 1 Activated!)"
+    },
+
+    {
+      "id": "FURNACE_STATION",
+      "x": 672,
+      "y": 288,
+      "width": 64,
+      "height": 64,
+      "layers": [
+        { "shape": "roundedRect", "color": "#2B2B2B", "strokeColor": "#161616", "lineWidth": 2, "cornerRadius": 8 },
+        { "shape": "roundedRect", "color": "#3A3A3A", "strokeColor": "#1F1F1F", "lineWidth": 2, "cornerRadius": 6, "scaleX": 0.94, "scaleY": 0.94 },
+        { "path": "M0.14 0.56 L0.86 0.56 L0.86 0.86 L0.14 0.86 Z", "color": "#111111", "strokeColor": "#000000", "lineWidth": 2 },
+        { "path": "M0.18 0.60 L0.82 0.60 L0.82 0.82 L0.18 0.82 Z", "color": "#FF6A00", "strokeColor": null, "alpha": 0.35 },
+        { "path": "M0.18 0.70 C0.28 0.60 0.40 0.78 0.52 0.70 C0.64 0.62 0.72 0.62 0.82 0.70", "color": null, "strokeColor": "#FFD166", "lineWidth": 2, "alpha": 0.9 },
+
+        { "shape": "rect", "color": "#1E1E1E", "strokeColor": "#0F0F0F", "lineWidth": 1, "scaleX": 0.24, "scaleY": 0.10, "offsetX": -0.28, "offsetY": 0.34 },
+        { "shape": "rect", "color": "#1E1E1E", "strokeColor": "#0F0F0F", "lineWidth": 1, "scaleX": 0.24, "scaleY": 0.10, "offsetX": 0.28, "offsetY": 0.34 },
+
+        { "shape": "rect", "color": "#2B2B2B", "strokeColor": "#141414", "lineWidth": 1, "scaleX": 0.18, "scaleY": 0.20, "offsetY": -0.50 },
+        { "shape": "circle", "color": "#22C55E", "strokeColor": null, "scaleX": 0.06, "scaleY": 0.06, "offsetX": 0.30, "offsetY": -0.24 },
+        { "shape": "circle", "color": "#EF4444", "strokeColor": null, "scaleX": 0.06, "scaleY": 0.06, "offsetX": 0.18, "offsetY": -0.24 },
+
+        { "path": "M0.42 0.12 L0.58 0.12 L0.58 0.32 L0.42 0.32 Z", "color": "#202225", "strokeColor": "#0E0F10", "lineWidth": 1 },
+        { "path": "M0.44 0.16 L0.56 0.16", "color": null, "strokeColor": "#E5E9EC", "lineWidth": 1 }
+      ],
+      "solid": true,
+      "requiresAllItemIds": ["IRON_ORE"],
+      "grantItemId": "COPPER_INGOT",
+      "grantQty": 1,
+      "onActivateTaskId": "TASK_2_SMELT_METAL",
+      "completesLevel": false,
+      "description": "Smelt raw iron ore into a usable metal ingot.",
+      "interactMessage": "Use the furnace to smelt Iron Ore into a Copper Ingot."
+    },
+
+    {
+      "id": "ALLOY_MIXER",
+      "x": 96,
+      "y": 480,
+      "width": 64,
+      "height": 64,
+      "layers": [
+        { "shape": "roundedRect", "color": "#6C7680", "strokeColor": "#3E464D", "lineWidth": 2, "cornerRadius": 8 },
+        { "path": "M0.12 0.20 L0.88 0.20 L0.88 0.80 L0.12 0.80 Z", "color": "#2A3035", "strokeColor": "#1A1F23", "lineWidth": 2 },
+        { "path": "M0.20 0.30 L0.80 0.30 L0.80 0.70 L0.20 0.70 Z", "color": "#40464B", "strokeColor": "#2A2F33", "lineWidth": 1 },
+        { "path": "M0.22 0.56 C0.34 0.44 0.46 0.72 0.60 0.56 C0.70 0.48 0.78 0.48 0.80 0.56", "color": null, "strokeColor": "#B8FFE3", "lineWidth": 2, "alpha": 0.5 },
+        { "path": "M0.22 0.36 L0.78 0.36", "color": null, "strokeColor": "#8B949C", "lineWidth": 1 },
+        { "path": "M0.22 0.64 L0.78 0.64", "color": null, "strokeColor": "#8B949C", "lineWidth": 1 },
+
+        { "shape": "circle", "color": "#F59E0B", "strokeColor": "#9A5F05", "lineWidth": 1, "scaleX": 0.08, "scaleY": 0.08, "offsetX": -0.32, "offsetY": -0.20 },
+        { "shape": "circle", "color": "#3B82F6", "strokeColor": "#1E3A8A", "lineWidth": 1, "scaleX": 0.08, "scaleY": 0.08, "offsetX": -0.20, "offsetY": -0.20 },
+        { "shape": "circle", "color": "#10B981", "strokeColor": "#065F46", "lineWidth": 1, "scaleX": 0.08, "scaleY": 0.08, "offsetX": -0.08, "offsetY": -0.20 },
+
+        { "path": "M0.46 0.18 L0.54 0.18 L0.54 0.30 L0.46 0.30 Z", "color": "#B0B6BB", "strokeColor": "#6C7378", "lineWidth": 1 },
+        { "path": "M0.48 0.30 L0.52 0.70", "color": null, "strokeColor": "#E5E9EC", "lineWidth": 2 },
+
+        { "path": "M0.24 0.72 L0.76 0.72 L0.76 0.80 L0.24 0.80 Z", "color": "#F97316", "strokeColor": "#7C2D12", "lineWidth": 1, "alpha": 0.7 }
+      ],
+      "solid": true,
+      "requiresAllItemIds": ["COPPER_INGOT"],
+      "grantItemId": "STEEL_ALLOY",
+      "grantQty": 1,
+      "onActivateTaskId": "TASK_3_CREATE_ALLOY",
+      "completesLevel": false,
+      "description": "Combine metals to create a strong alloy.",
+      "interactMessage": "Mix the Copper Ingot to create a Steel Alloy."
+    },
+
+    {
+      "id": "ANALYSIS_STATION",
+      "x": 480,
+      "y": 544,
+      "width": 64,
+      "height": 32,
+      "layers": [
+        { "shape": "roundedRect", "color": "#D3D6DA", "strokeColor": "#9AA0A6", "lineWidth": 1, "cornerRadius": 6 },
+        { "path": "M0.06 0.12 L0.94 0.12 L0.94 0.86 L0.06 0.86 Z", "color": "#1F2937", "strokeColor": "#0B1220", "lineWidth": 1 },
+
+        { "path": "M0.12 0.22 L0.88 0.22 L0.88 0.46 L0.12 0.46 Z", "color": "#0B2536", "strokeColor": "#071824", "lineWidth": 1 },
+        { "path": "M0.12 0.34 C0.22 0.28 0.30 0.44 0.42 0.34 C0.56 0.24 0.70 0.44 0.88 0.30", "color": null, "strokeColor": "#6EE7B7", "lineWidth": 2 },
+
+        { "path": "M0.14 0.56 L0.42 0.56 L0.42 0.78 L0.14 0.78 Z", "color": "#374151", "strokeColor": "#111827", "lineWidth": 1 },
+        { "path": "M0.16 0.60 L0.40 0.60", "color": null, "strokeColor": "#E5E7EB", "lineWidth": 1 },
+        { "path": "M0.16 0.68 L0.32 0.68", "color": null, "strokeColor": "#9CA3AF", "lineWidth": 1 },
+
+        { "path": "M0.48 0.56 L0.86 0.56 L0.86 0.78 L0.48 0.78 Z", "color": "#374151", "strokeColor": "#111827", "lineWidth": 1 },
+        { "shape": "circle", "color": "#22C55E", "strokeColor": null, "scaleX": 0.05, "scaleY": 0.05, "offsetX": 0.24, "offsetY": 0.20 },
+        { "shape": "circle", "color": "#EF4444", "strokeColor": null, "scaleX": 0.05, "scaleY": 0.05, "offsetX": 0.36, "offsetY": 0.20 }
+      ],
+      "solid": false,
+      "requiresAllItemIds": ["STEEL_ALLOY", "DUCTILITY_TESTER"],
+      "grantItemId": null,
+      "grantQty": 0,
+      "onActivateTaskId": "TASK_4_ANALYZE_PROPERTIES",
+      "completesLevel": false,
+      "description": "Analyze the physical properties (like ductility) of your new alloy.",
+      "interactMessage": "Analyze the Steel Alloy's properties with the Ductility Tester!"
+    },
+
+    {
+      "id": "EXIT_DOOR",
+      "x": 896,
+      "y": 32,
+      "width": 32,
+      "height": 32,
+      "layers": [
+        { "shape": "rect", "color": "#5A3C1E", "strokeColor": "#2E1F10", "lineWidth": 2 },
+        { "path": "M0.10 0.08 L0.90 0.08 L0.90 0.92 L0.10 0.92 Z", "color": "#6A4522", "strokeColor": "#3A2714", "lineWidth": 1 },
+        { "path": "M0.16 0.18 L0.84 0.18 L0.84 0.42 L0.16 0.42 Z", "color": "#2B2F33", "strokeColor": "#141618", "lineWidth": 1 },
+        { "shape": "circle", "color": "#22C55E", "strokeColor": "#116B36", "lineWidth": 1, "scaleX": 0.08, "scaleY": 0.08, "offsetX": 0.34, "offsetY": -0.26 },
+        { "path": "M0.40 0.58 L0.70 0.58 L0.70 0.64 L0.40 0.64 Z", "color": "#2B2F33", "strokeColor": "#141618", "lineWidth": 1 },
+        { "path": "M0.22 0.60 L0.38 0.60 L0.34 0.52 Z", "color": "#E5E9EC", "strokeColor": "#9AA0A6", "lineWidth": 1 }
+      ],
+      "solid": true,
+      "requiresAllItemIds": [],
+      "grantItemId": null,
+      "grantQty": 0,
+      "onActivateTaskId": null,
+      "completesLevel": true,
+      "description": "Exit the Metal Lab.",
+      "interactMessage": "You've mastered the mettle of metals! Exit now?"
     }
-    ],
-    "tasks": [
+  ],
+  "tasks": [
     {
-    "id": "FETCH_ORES",
-    "title": "Fetch Ores",
-    "description": "Find and collect copper ore and tin ore in the mine.",
-    "completed": false
+      "id": "TASK_1_COLLECT_ORE",
+      "title": "Inspect the Periodic Table",
+      "description": "Examine the Periodic Table display to learn about metal classifications and properties.",
+      "completed": false
     },
     {
-    "id": "SMELT_BRONZE",
-    "title": "Smelt a Bronze Bar",
-    "description": "Use the furnace to smelt the ores into a bronze bar.",
-    "completed": false
+      "id": "TASK_2_SMELT_METAL",
+      "title": "Smelt Iron Ore",
+      "description": "Find raw Iron Ore and use the furnace to smelt it into a Copper Ingot.",
+      "completed": false
+    },
+    {
+      "id": "TASK_3_CREATE_ALLOY",
+      "title": "Create an Alloy",
+      "description": "Use the alloy station to combine the Copper Ingot and create a strong Steel Alloy.",
+      "completed": false
+    },
+    {
+      "id": "TASK_4_ANALYZE_PROPERTIES",
+      "title": "Analyze Alloy Properties",
+      "description": "Use the analysis station and the Ductility Tester to test the physical properties of your Steel Alloy.",
+      "completed": false
     }
-    ],
-    "audio": {
+  ],
+  "audio": {
     "sfx": {
-    "pickup": { "type": "beep", "frequency": 880, "durationMs": 120, "volume": 0.5 },
-    "step": { "type": "footsteps", "volume": 0.35 }
+      "pickup": {
+        "type": "beep",
+        "frequency": 880,
+        "durationMs": 150,
+        "volume": 0.7
+      },
+      "step": {
+        "type": "footsteps",
+        "volume": 0.3
+      }
     },
-    "music": { "type": "none" }
+    "music": {
+      "type": "ambient"
     }
-    }
+  }
+}

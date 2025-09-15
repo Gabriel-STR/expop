@@ -109,6 +109,9 @@ export default class UIScene extends Phaser.Scene {
       const clickedInside = over.some((obj) => obj === this.contextMenu || isChild(obj));
       if (!clickedInside) this._hideContextMenu();
     });
+
+    // Map controls (pan and center)
+    this._buildMapControls();
   }
 
   _buildInventoryGrid() {
@@ -182,6 +185,57 @@ export default class UIScene extends Phaser.Scene {
         this.slots.push({ bg, icon, label, hit });
       }
     }
+  }
+
+  _buildMapControls() {
+    const { width, height } = this.scale;
+    const size = 32;
+    const pad = 6;
+    const baseX = width - (size * 3 + pad * 2) - 16;
+    const baseY = height - (size * 3 + pad * 2) - 16 - (this.inventoryPanelBg?.height || 0) - 12;
+
+    const container = this.add.container(baseX, baseY).setScrollFactor(0).setDepth(15);
+    const makeBtn = (x, y, label, onClick) => {
+      const bg = this.add.rectangle(x, y, size, size, 0x111827, 0.9).setOrigin(0, 0).setStrokeStyle(1, 0x374151).setInteractive({ useHandCursor: true });
+      const txt = this.add.text(x + size / 2, y + size / 2, label, { fontFamily: 'sans-serif', fontSize: '16px', color: '#e5e7eb' }).setOrigin(0.5);
+      bg.on('pointerover', () => bg.setFillStyle(0x1f2937, 0.95));
+      bg.on('pointerout', () => bg.setFillStyle(0x111827, 0.9));
+      bg.on('pointerdown', (p) => {
+        if (p.event && typeof p.event.stopPropagation === 'function') p.event.stopPropagation();
+        onClick();
+      });
+      container.add([bg, txt]);
+      return bg;
+    };
+
+    const panAmount = 128; // pixels per click
+    const gs = this.scene.get('GameScene');
+    const panBy = (dx, dy) => {
+      if (!gs || !gs.cameraController || !gs.cameraController.panBy) return;
+      gs.cameraController.panBy(dx, dy);
+    };
+    const centerOnPlayer = () => {
+      if (!gs || !gs.cameraController || !gs.cameraController.resumeFollow) return;
+      gs.cameraController.resumeFollow();
+    };
+
+    // Layout: up
+    makeBtn(size + pad, 0, '▲', () => panBy(0, -panAmount));
+    // left, center, right
+    makeBtn(0, size + pad, '◀', () => panBy(-panAmount, 0));
+    makeBtn(size + pad, size + pad, '•', () => centerOnPlayer());
+    makeBtn(size * 2 + pad * 2, size + pad, '▶', () => panBy(panAmount, 0));
+    // down
+    makeBtn(size + pad, size * 2 + pad * 2, '▼', () => panBy(0, panAmount));
+
+    this.mapControls = container;
+    // Keep positioned on resize
+    this.scale.on('resize', (gameSize) => {
+      const w = gameSize.width; const h = gameSize.height;
+      const bx = w - (size * 3 + pad * 2) - 16;
+      const by = h - (size * 3 + pad * 2) - 16 - (this.inventoryPanelBg?.height || 0) - 12;
+      container.setPosition(bx, by);
+    });
   }
 
   _renderInventory(list) {

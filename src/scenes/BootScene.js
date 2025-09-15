@@ -156,12 +156,32 @@ export default class BootScene extends Phaser.Scene {
     const catalog = content?.items?.catalog || [];
     const canvas = this.textures.createCanvas(ASSET_KEYS.ITEMS, size * Math.max(catalog.length, 1), size);
     const ctx = canvas.getContext();
+    const drawLayer = (layerDef, cx, cy, baseW, baseH) => {
+      if (!layerDef) return;
+      const lw = Math.max(0, Math.floor((layerDef.lineWidth ?? 1)));
+      const w = baseW * (layerDef.scaleX ?? 1);
+      const h = baseH * (layerDef.scaleY ?? 1);
+      const offX = (layerDef.offsetX ?? 0) * baseW;
+      const offY = (layerDef.offsetY ?? 0) * baseH;
+      if (layerDef.path) {
+        const fillStyle = (layerDef.color === null ? null : (layerDef.color || '#666666'));
+        const strokeStyle = (layerDef.strokeColor === null ? null : (layerDef.strokeColor || '#111111'));
+        drawCanvasPath(ctx, layerDef.path, cx + offX, cy + offY, w, h, { fillStyle, strokeStyle, lineWidth: lw });
+      } else {
+        const shape = layerDef.shape || 'rect';
+        const fillStyle = (layerDef.color === null ? null : (layerDef.color || '#666666'));
+        const strokeStyle = (layerDef.strokeColor === null ? null : (layerDef.strokeColor || '#111111'));
+        drawCanvasShape(ctx, shape, cx + offX, cy + offY, w, h, { fillStyle, strokeStyle, lineWidth: lw, cornerRadius: layerDef.cornerRadius ?? 6 });
+      }
+    };
     catalog.forEach((it, idx) => {
       const cx = idx * size + size / 2;
       const cy = size / 2;
       const w = Math.floor(size * 0.7);
       const h = Math.floor(size * 0.7);
-      if (it.path) {
+      if (Array.isArray(it.layers) && it.layers.length > 0) {
+        for (const layer of it.layers) drawLayer(layer, cx, cy, w, h);
+      } else if (it.path) {
         drawCanvasPath(ctx, it.path, cx, cy, w, h, {
           fillStyle: it.color || '#cccccc',
           strokeStyle: '#111111',

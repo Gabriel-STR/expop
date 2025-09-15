@@ -40,28 +40,45 @@ export default class GameScene extends Phaser.Scene {
     const tileW = content?.map?.tileWidth || 32;
     const tileH = content?.map?.tileHeight || 32;
     const tileset = map.addTilesetImage(tilesetName, ASSET_KEYS.TILESET, tileW, tileH, 0, 0);
-    const worldLayerName = (content?.map?.layers && content.map.layers[0]?.name) || 'World';
-    const layer = map.createLayer(worldLayerName, tileset, 0, 0);
+    const requestedLayerName = (content?.map?.layers && content.map.layers[0]?.name) || 'World';
+    const availableLayerNames = (map.layers || []).map(l => l.name);
+    const resolvedLayerName = availableLayerNames.includes(requestedLayerName)
+      ? requestedLayerName
+      : (availableLayerNames[0] || 0);
+    let layer = map.createLayer(resolvedLayerName, tileset, 0, 0);
+    if (!layer) {
+      console.warn('[GameScene] Failed to create layer with name:', resolvedLayerName, 'Available:', availableLayerNames);
+    }
     const collidesProp = (content?.map?.layers && content.map.layers[0]?.collidesByProperty) || { collides: true };
-    layer.setCollisionByProperty(collidesProp);
+    if (layer) {
+      layer.setCollisionByProperty(collidesProp);
+    }
     const blockedIndices = Array.isArray(content?.map?.blockedTileIndices) ? content.map.blockedTileIndices : [];
     if (blockedIndices.length) {
       layer.setCollision(blockedIndices);
     }
-    this.physics.world.setBounds(0, 0, layer.width, layer.height);
+    if (layer) {
+      this.physics.world.setBounds(0, 0, layer.width, layer.height);
+    }
     this.map = map;
     this.worldLayer = layer;
     this.tileSize = map.tileWidth || 32;
 
-    // Player
-    const startX = this.initialSave?.player?.x ?? 64;
-    const startY = this.initialSave?.player?.y ?? 64;
+    // Player — start at map center when no save position exists
+    const defaultX = layer ? Math.floor(layer.width / 2) : 64;
+    const defaultY = layer ? Math.floor(layer.height / 2) : 64;
+    const startX = (this.initialSave && this.initialSave.player && typeof this.initialSave.player.x === 'number')
+      ? this.initialSave.player.x : defaultX;
+    const startY = (this.initialSave && this.initialSave.player && typeof this.initialSave.player.y === 'number')
+      ? this.initialSave.player.y : defaultY;
     this.player = new Player(this, startX, startY);
     this.add.existing(this.player);
     this.physics.add.existing(this.player);
     this.player.body.setCollideWorldBounds(true);
     this.player.initBody();
-    this.physics.add.collider(this.player, layer);
+    if (layer) {
+      this.physics.add.collider(this.player, layer);
+    }
 
     // Items
     this.items = this.physics.add.group({ classType: ItemPickup, immovable: true, allowGravity: false });
@@ -98,12 +115,7 @@ export default class GameScene extends Phaser.Scene {
     // UI
     this.scene.launch('UIScene', { inventory: this.inventory, audio: this.audio, dataStore: this.dataStore, tasks: this.tasks });
 
-    // Audio music (guard for cache + config)
-    const wantsMusic = (content?.audio?.music?.type || 'loop') !== 'none';
-    const hasMusicInCache = this.cache.audio && this.cache.audio.exists && this.cache.audio.exists(ASSET_KEYS.MUSIC_THEME);
-    if (wantsMusic && hasMusicInCache) {
-      this.audio.playMusic(ASSET_KEYS.MUSIC_THEME, { loop: true, fade: 300 });
-    }
+    // Disable auto-playing game music at start
 
     // Mouse setup (click-to-move + right-click menus)
     this.input.mouse.disableContextMenu();
@@ -115,6 +127,9 @@ export default class GameScene extends Phaser.Scene {
 
           this.moveTarget = new Phaser.Math.Vector2(snapped.x, snapped.y);
           this._showMoveMarker(snapped.x, snapped.y);
+          if (this.cameraController && this.cameraController.resumeFollow) {
+            this.cameraController.resumeFollow();
+          }
 
       }
     });

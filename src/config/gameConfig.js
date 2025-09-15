@@ -1,10 +1,10 @@
-import Phaser from 'phaser';
+import Phaser from 'phaser'
 
 export function gameConfig() {
   return {
     type: Phaser.AUTO,
     parent: 'app',
-    backgroundColor: '#0f172a',
+    backgroundColor: '#008080',
     scale: {
       mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.NO_CENTER,
@@ -20,7 +20,7 @@ export function gameConfig() {
     },
     pixelArt: true,
     roundPixels: true
-  };
+  }
 }
 
 
